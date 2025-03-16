@@ -244,12 +244,12 @@ void StripSteamInputPrefix(char[] steamInput, int maxLength)
 
 bool IsValidSteamInput(const char[] steamInput)
 {
-  if (StrContains(steamInput, "STEAM_0:", false) != -1)
+  if (StrContains(steamInput, "STEAM_0:", false) == 0)
   {
     return true;
   }
 
-  if (StrContains(steamInput, "STEAM_1:", false) != -1)
+  if (StrContains(steamInput, "STEAM_1:", false) == 0)
   {
     return true;
   }
@@ -259,7 +259,12 @@ bool IsValidSteamInput(const char[] steamInput)
 
 bool IsValidClient(int client)
 {
-  if (client <= 0 || client > MaxClients)
+  if (client <= 0)
+  {
+    return false;
+  }
+
+  if (client > MaxClients)
   {
     return false;
   }
