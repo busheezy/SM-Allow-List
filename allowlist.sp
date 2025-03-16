@@ -64,7 +64,7 @@ public void OnClientPostAdminCheck(int client)
   char playerName[64];
   GetClientName(client, playerName, sizeof(playerName));
 
-  if (CheckCommandAccess(client, ADD_COMMAND, ADMFLAG_CUSTOM2) == false)
+  if (CheckCommandAccess(client, ADD_COMMAND, ADMFLAG_CUSTOM2))
   {
     return;
   }
