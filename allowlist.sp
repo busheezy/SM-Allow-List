@@ -223,7 +223,7 @@ public void SQL_AddSteamid_Add(Handle owner, DBResultSet results, const char[] e
     PrintToChat(client, "%sThe Steam ID %s has been added to the database.", CHAT_PREFIX, steamInput);
   }
 
-  delete view_as<DataPack>(pack);
+  delete pack;
 }
 
 public void SQL_ErrorCheckCallback(Handle owner, DBResultSet results, const char[] error, any pack)
