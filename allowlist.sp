@@ -12,7 +12,7 @@ public Plugin myinfo =
   name        = "Allow List",
   author      = "BadServers.net",
   description = "Allows only certain steamIds to join the server. Based on simple whitelist by Xines and johan123jo.",
-  version     = "1.0.0",
+  version     = "1.1.0",
   url         = "https://BadsServers.net",
 };
 
@@ -70,7 +70,7 @@ public void OnClientPostAdminCheck(int client)
   }
 
   char query[256];
-  Format(query, sizeof(query), "SELECT steamId FROM %s WHERE steamId = '%s'", DB_NAME, steamId);
+  db.Format(query, sizeof(query), "SELECT steamId FROM %s WHERE steamId = '%s'", DB_NAME, steamId);
 
   int userId = GetClientUserId(client);
   db.Query(SQL_CheckSteamID, query, userId);
@@ -144,7 +144,7 @@ public Action Command_Add(int client, int args)
   pack.WriteString(playerNameInput);
 
   char query[256];
-  Format(query, sizeof(query), "SELECT steamId FROM %s WHERE steamId = '%s'", DB_NAME, steamInput);
+  db.Format(query, sizeof(query), "SELECT steamId FROM %s WHERE steamId = '%s'", DB_NAME, steamInput);
 
   db.Query(SQL_AddSteamid_Check, query, pack);
 
@@ -183,7 +183,7 @@ public void SQL_AddSteamid_Check(Handle owner, DBResultSet results, const char[]
     GetClientName(client, adminName, sizeof(adminName));
 
     char query[256];
-    Format(query, sizeof(query), "INSERT INTO %s (name, steamId, notes) VALUES ('%s', '%s', 'invited by %s')", DB_NAME, playerNameInput, steamInput, adminName);
+    db.Format(query, sizeof(query), "INSERT INTO %s (name, steamId, notes) VALUES ('%s', '%s', 'invited by %s')", DB_NAME, playerNameInput, steamInput, adminName);
 
     db.Query(SQL_AddSteamid_Add, query, pack);
   }
