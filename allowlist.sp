@@ -12,7 +12,7 @@ public Plugin myinfo =
   name        = "Allow List",
   author      = "BadServers.net",
   description = "Allows only certain steamIds to join the server. Based on simple whitelist by Xines and johan123jo.",
-  version     = "1.1.0",
+  version     = "1.1.1",
   url         = "https://BadsServers.net",
 };
 
@@ -41,8 +41,6 @@ public void OnDatabaseConnect(Handle owner, Handle hndl, const char[] error, any
 
   Handle clonedHandle = CloneHandle(hndl);
   db                  = view_as<Database>(clonedHandle);
-
-  PrintToServer("Successfully connected to database!");
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -114,6 +112,12 @@ public Action Command_Add(int client, int args)
   char exampleInputReply[128];
   FormatEx(exampleInputReply, sizeof(exampleInputReply), "%sInvalid input. Example input: !%s STEAM_0:1:6157769 Name", CHAT_PREFIX, ADD_COMMAND);
 
+  if (args < 1)
+  {
+    ReplyToCommand(client, exampleInputReply);
+    return Plugin_Handled;
+  }
+
   char arguments[256];
   GetCmdArgString(arguments, sizeof(arguments));
 
@@ -165,7 +169,7 @@ public void SQL_AddSteamid_Check(Handle owner, DBResultSet results, const char[]
 
   if (!IsValidClient(client))
   {
-    delete view_as<DataPack>(pack);
+    delete pack;
     return;
   }
 
@@ -173,7 +177,7 @@ public void SQL_AddSteamid_Check(Handle owner, DBResultSet results, const char[]
   {
     LogError("Query failed! %s", error);
     PrintToChat(client, "%sQuery failed, please try again later.", CHAT_PREFIX);
-    delete view_as<DataPack>(pack);
+    delete pack;
     return;
   }
 
@@ -190,7 +194,7 @@ public void SQL_AddSteamid_Check(Handle owner, DBResultSet results, const char[]
   else
   {
     PrintToChat(client, "%sThe Steam ID %s is already in the database.", CHAT_PREFIX, steamInput);
-    delete view_as<DataPack>(pack);
+    delete pack;
   }
 }
 
@@ -205,7 +209,7 @@ public void SQL_AddSteamid_Add(Handle owner, DBResultSet results, const char[] e
 
   if (!IsValidClient(client))
   {
-    delete view_as<DataPack>(pack);
+    delete pack;
     return;
   }
 
